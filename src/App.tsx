@@ -1,4 +1,4 @@
-import { AuthProvider, useAuth } from './contexts/authContext'
+import { AuthProvider } from './contexts/authContext'
 import Router from './routes'
 
 // const Home = lazy(() => import('./pages/Home'))
