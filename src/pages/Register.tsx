@@ -1,7 +1,6 @@
-import axios from 'axios';
-import React, { useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { register } from '../services/auth';
-import { data, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Register() {
   // state - component data

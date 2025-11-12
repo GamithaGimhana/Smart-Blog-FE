@@ -20,6 +20,10 @@ export default function Home() {
   const { user, logout } = useAuth(); // make sure logout exists in context
   const navigate = useNavigate();
 
+  const handleNavigateToPost = () => {
+    navigate("/post");
+  };
+
   const handleLogout = () => {
     // Clear local storage / cached data if any
     localStorage.clear();
@@ -68,7 +72,7 @@ export default function Home() {
             <p className="text-gray-500 text-sm">
               Check your published or draft articles.
             </p>
-            <button className="mt-4 text-blue-600 hover:underline text-sm">
+            <button className="mt-4 text-blue-600 hover:underline text-sm" onClick={handleNavigateToPost}>
               View Posts →
             </button>
           </div>
