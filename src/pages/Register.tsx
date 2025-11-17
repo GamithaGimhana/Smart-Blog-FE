@@ -64,45 +64,6 @@ export default function Register() {
   }
 
   return (
-    // <div>
-    //   <h1>Register as User or Author</h1>
-    //   <input
-    //     type="text"
-    //     placeholder="firstname"
-    //     value={firstname}
-    //     onChange={(e) => setFirstName(e.target.value)}
-    //   />
-    //   <input
-    //     type="text"
-    //     placeholder="lastname"
-    //     value={lastname}
-    //     onChange={(e) => setLastName(e.target.value)}
-    //   />
-    //   <input
-    //     type="email"
-    //     placeholder="email"
-    //     value={email}
-    //     onChange={(e) => setEmail(e.target.value)}
-    //   />
-    //   <input
-    //     type="password"
-    //     placeholder="password"
-    //     value={password}
-    //     onChange={(e) => setPassword(e.target.value)}
-    //   />
-    //   <input
-    //     type="password"
-    //     placeholder="confirm password"
-    //     value={confirmPassword}
-    //     onChange={(e) => setConfirmPassword(e.target.value)}
-    //   />
-    //   <select value={role} onChange={(e) => setRole(e.target.value)}>
-    //     <option value="USER">User</option>
-    //     <option value="AUTHOR">Author</option>
-    //   </select>
-    //   <button onClick={handleRegister}>Register</button>
-    // </div>
-
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 animate-fadeIn">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">

@@ -6,29 +6,39 @@ import { getMe } from "../services/auth"
 const AuthContext = createContext<any>(null)
 
 export const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user')
+    return saved ? JSON.parse(saved) : null
+  })
+  const [loading, setLoading] = useState(true)
 
   // component eke lifecycle eka aduragnn use karanw
   // mek nis page ek refresh klth data nathi wenne na 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')   // token ekk thiyed blnw
     if (token) {
-      // fetch user details from API
-      // setUser(userDetails)
       getMe()
       .then((res) => {
         setUser(res.data)
+        localStorage.setItem("user", JSON.stringify(res.data))
       })
       .catch((err) => {
         setUser(null)   // token eka naththam hri expire welnm hri /me api call ek failnm hri userw null krnwa
         console.error('Failed to fetch user details', err)
+        localStorage.removeItem("user")
+        localStorage.removeItem("accessToken")
+      }). finally(() => {
+        setLoading(false)
       })
-    }
+    } else {
+      setUser(null)
+      setLoading(false)
+    }      
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-        {children}
+    <AuthContext.Provider value={{ user, setUser, loading }}>
+      {children}
     </AuthContext.Provider>
   )
 }

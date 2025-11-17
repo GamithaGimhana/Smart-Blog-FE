@@ -25,3 +25,9 @@ export const getMe = async () => {
   const res = await api.get('/auth/me')
   return res.data
 }
+
+// http://localhost:5000/api/v1/auth/refresh
+export const refreshTokens = async (refreshToken: string) => {
+  const res = await api.post('/auth/refresh', { token: refreshToken })
+  return res.data
+}

@@ -1,97 +1,129 @@
-// import { useAuth } from '../contexts/authContext';
-
-// export default function Home() {
-
-//   const { user } = useAuth();
-
-//   return (
-//     <div>
-//         <h1>
-//             {user?.email}
-//         </h1>
-//     </div>
-//   )
-// }
-
-import { useAuth } from "../contexts/authContext";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getAllPosts } from "../services/post";
 
 export default function Home() {
-  const { user, logout } = useAuth(); // make sure logout exists in context
-  const navigate = useNavigate();
+  const [posts, setPosts] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
 
-  const handleNavigateToPost = () => {
-    navigate("/post");
+  const fetchPosts = async (pageNumber = 1) => {
+    try {
+      const data = await getAllPosts(pageNumber, 6); // fetch 6 for featured
+      setPosts(data?.data || []);
+      setTotalPage(data?.totalPages || 1);
+      setPage(pageNumber);
+    } catch (err) {
+      console.error("Failed to fetch posts:", err);
+    }
   };
 
-  const handleLogout = () => {
-    // Clear local storage / cached data if any
-    localStorage.clear();
-    sessionStorage.clear();
-
-    // Call auth context logout if available
-    if (logout) logout();
-
-    // Redirect to login page
-    navigate("/login");
-  };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-gray-800">Dashboard</h1>
-        <div className="flex items-center gap-3">
-          <span className="text-gray-600 text-sm">{user?.email}</span>
-          <button
-            onClick={handleLogout}
-            className="bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition"
-          >
-            Logout
-          </button>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-gray-400 to-gray-600 text-white py-20">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
+            Welcome to SmartBlog
+          </h1>
+          <p className="text-lg mb-8">
+            Discover, share, and manage your favorite posts all in one place.
+          </p>
+          <div className="flex justify-center gap-4 flex-wrap">
+            <Link
+              to="/post"
+              className="px-6 py-3 rounded-xl bg-white text-gray-600 font-semibold shadow-lg hover:bg-gray-100 transition-all"
+            >
+              Create Posts
+            </Link>
+            <Link
+              to="/home/admin"
+              className="px-6 py-3 rounded-xl border border-white font-semibold hover:bg-white hover:text-gray-600 transition-all"
+            >
+              Admin Dashboard
+            </Link>
+          </div>
         </div>
-      </header>
+      </section>
 
-      <main className="flex-1 p-8">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-          Welcome back
+      {/* Featured Posts Section */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          Featured Posts
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-            <h3 className="text-gray-700 font-semibold mb-2">Your Profile</h3>
-            <p className="text-gray-500 text-sm">
-              View or update your personal information.
-            </p>
-            <button className="mt-4 text-blue-600 hover:underline text-sm">
-              Manage Profile →
-            </button>
+        {posts.length === 0 ? (
+          <p className="text-center text-gray-500">No posts available.</p>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((p) => (
+              <div
+                key={p._id}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow"
+              >
+                <img
+                  src={p?.imageURL || "https://via.placeholder.com/300x200"}
+                  alt={p?.title}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">{p?.title}</h3>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{p?.content}</p>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {p?.tags?.map((tag: string, i: number) => (
+                      <span
+                        key={i}
+                        className="bg-blue-100 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    to={`/post/${p._id}`}
+                    className="text-indigo-600 font-semibold hover:underline"
+                  >
+                    Read More
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
+        )}
 
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-            <h3 className="text-gray-700 font-semibold mb-2">Your Posts</h3>
-            <p className="text-gray-500 text-sm">
-              Check your published or draft articles.
-            </p>
-            <button className="mt-4 text-blue-600 hover:underline text-sm" onClick={handleNavigateToPost}>
-              View Posts →
-            </button>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-            <h3 className="text-gray-700 font-semibold mb-2">Settings</h3>
-            <p className="text-gray-500 text-sm">
-              Customize your preferences or notifications.
-            </p>
-            <button className="mt-4 text-blue-600 hover:underline text-sm">
-              Open Settings →
-            </button>
-          </div>
+        {/* Optional Pagination */}
+        <div className="flex justify-center mt-10 space-x-3">
+          <button
+            onClick={() => fetchPosts(page - 1)}
+            disabled={page === 1}
+            className={`px-5 py-2 rounded-lg font-medium ${
+              page === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600 transition"
+            }`}
+          >
+            Prev
+          </button>
+          <span className="px-4 py-2 text-gray-700">
+            Page {page} of {totalPage}
+          </span>
+          <button
+            onClick={() => fetchPosts(page + 1)}
+            disabled={page === totalPage}
+            className={`px-5 py-2 rounded-lg font-medium ${
+              page === totalPage
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600 transition"
+            }`}
+          >
+            Next
+          </button>
         </div>
-      </main>
-
-      <footer className="text-center text-gray-500 text-sm py-4 border-t">
-        © {new Date().getFullYear()} Smart Blog. All rights reserved.
-      </footer>
+      </section>
     </div>
   );
 }

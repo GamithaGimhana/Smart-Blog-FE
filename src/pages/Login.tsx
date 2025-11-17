@@ -7,8 +7,8 @@ export default function Login() {
   const navigate = useNavigate()  // for navigation after login
   
   const { setUser } = useAuth()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('gamitha.gimhana99@gmail.com')
+  const [password, setPassword] = useState('123456')
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
@@ -30,7 +30,9 @@ export default function Login() {
         alert('Login failed: No token received')
         return
       }
+
       await localStorage.setItem('accessToken', res.data.accessToken)
+      await localStorage.setItem('refreshToken', res.data.refreshToken)
 
       // import { getMe, login } from "../services/auth"
       const detail = await getMe()
@@ -39,31 +41,20 @@ export default function Login() {
       // auth context
       // console.log('Profile details:', detail.data)
       setUser(detail.data)
+      localStorage.setItem("user", JSON.stringify(detail.data))
 
-      navigate('/home')
+      // Redirect based on role
+      if (detail.data?.roles == 'ADMIN') {
+        navigate('/home/admin')
+      } else {
+        navigate('/home')
+      }
     } catch (error) {
       console.error('There was an error!', error)
     }
   }
 
   return (
-    // <div>
-    //   <h1>Login</h1>
-    //   <input
-    //     type="email"
-    //     placeholder="email"
-    //     value={email}
-    //     onChange={(e) => setEmail(e.target.value)}
-    //   />
-    //   <input
-    //     type="password"
-    //     placeholder="password"
-    //     value={password}
-    //     onChange={(e) => setPassword(e.target.value)}
-    //   />
-    //   <button onClick={handleLogin}>Login</button>
-    // </div>
-
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 animate-fadeIn">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
