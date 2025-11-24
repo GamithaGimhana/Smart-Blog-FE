@@ -2,7 +2,8 @@ import axios, { Axios, AxiosError } from "axios"
 import { refreshTokens } from "./auth"
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/v1'  // Base URL for all API requests
+  // baseURL: 'http://localhost:5000/api/v1'  // Base URL for all API requests
+  baseURL: 'https://smart-blog-be-nine.vercel.app/api/v1'  // Base URL for all API requests
 })
 
 const PUBLIC_ENDPOINTS = [  // List of public endpoints that don't require authentication, mewata token ek nathuwa call krla puluwan
