@@ -1,8 +1,8 @@
-import { Link, Outlet } from "react-router-dom";
-import { useAuth } from "../contexts/authContext";
+import { Link } from "react-router-dom";
+// import { useAuth } from "../contexts/authContext";
 
 export default function MainLayout() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-6">

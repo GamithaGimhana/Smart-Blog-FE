@@ -1,16 +1,16 @@
-import { useAuth } from "../contexts/authContext";
-import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../contexts/authContext";
+// import { useNavigate } from "react-router-dom";
 
 export default function AdminHome() {
-  const { user, setUser } = useAuth();
-  const navigate = useNavigate();
+  // const { user, setUser } = useAuth();
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-    if (setUser) setUser(null);
-    navigate('/login');
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   sessionStorage.clear();
+  //   if (setUser) setUser(null);
+  //   navigate('/login');
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
