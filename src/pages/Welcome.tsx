@@ -20,17 +20,17 @@ export default function MainLayout() {
         {/* Navigation Buttons */}
         <div className="flex flex-col gap-4 w-full">
 
-          <Link to="/home" className="w-full py-3 rounded-xl bg-black text-white font-medium tracking-wide shadow-lg hover:bg-gray-900 transition-all active:scale-[0.97]">
-            Home
+          <Link to="/login" className="w-full py-3 rounded-xl bg-black text-white font-medium tracking-wide shadow-lg hover:bg-gray-900 transition-all active:scale-[0.97]">
+            Login
           </Link>
 
-          <Link to="/post" className="w-full py-3 rounded-xl bg-gray-800 text-white font-medium tracking-wide shadow-lg hover:bg-gray-900 transition-all active:scale-[0.97]">
-            Posts
+          <Link to="/register" className="w-full py-3 rounded-xl bg-gray-800 text-white font-medium tracking-wide shadow-lg hover:bg-gray-900 transition-all active:scale-[0.97]">
+            Register
           </Link>
 
-          <Link to="/home/admin" className="w-full py-3 rounded-xl bg-indigo-600 text-white font-medium tracking-wide shadow-lg hover:bg-indigo-700 transition-all active:scale-[0.97]">
+          {/* <Link to="/home/admin" className="w-full py-3 rounded-xl bg-indigo-600 text-white font-medium tracking-wide shadow-lg hover:bg-indigo-700 transition-all active:scale-[0.97]">
             Admin Dashboard
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>
